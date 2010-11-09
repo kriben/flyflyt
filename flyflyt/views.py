@@ -1,10 +1,9 @@
 import logging
-from flyt import app
+from flyflyt import app
 from flask import render_template
 from flightinfo.airport import AirPort
 from flightinfo.flightinformationservice import FlightInformationService
 from flightinfo.airportparser import AirPortParser
-from optparse import OptionParser
 from flightinfo.airlinefactory import AirlineFactory
 from flightinfo.airlineparser import AirlineParser
 from flightinfo.airport import AirPort
