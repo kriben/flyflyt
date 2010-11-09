@@ -6,6 +6,7 @@
     <h1>{{ airport.name }} ({{ airport.code }})</h1>
   </div>
   <div data-role="content">
+    {% if departures %}
     <h4>Departures:</h4>
     <table>
       <tr>
@@ -25,6 +26,9 @@
       </tr>
       {% endfor %}
     </table>
+    {% else %}
+    There are currently no departures from this airport.
+    {% endif %}
   </div>
   <div data-role="footer" class="ui-bar" data-position="fixed">
     <a href="#arrivals" data-role="button" data-inline="true">Show Arrivals</a>	
@@ -38,6 +42,7 @@
   </div>
 
   <div data-role="content">
+    {% if arrivals %}
     <h4>Arrivals:</h4>
     <table>
       <tr>
@@ -55,6 +60,9 @@
       </tr>
       {% endfor %}
     </table>
+    {% else %}
+    There are currently no arrivals at this airport.
+    {% endif %}
   </div>
   <div data-role="footer" class="ui-bar" data-position="fixed">
     <a href="#departures" data-role="button" data-inline="true">Show Departures</a>	
