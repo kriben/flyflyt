@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div data-role="page" id="departures">
+  <div data-role="header">
+    <h1>{{ airport.name }} ({{ airport.code }})</h1>
+  </div>
+  <div data-role="content">
+    <h4>Departures:</h4>
+    <table>
+      <tr>
+	<th>Flight</th>
+	<th>Destination</th>
+	<th>Time</th>
+	<th>Gate</th>
+	<th>Desk</th>
+      </tr>
+      {% for f in departures %}
+      <tr>
+	<td>{{ f.flight_id }}</td> 
+	<td>{{ f.airport.name }}</td> 
+	<td>{{ f.get_local_schedule_time()|datetimeformat }}</td>
+	<td>{% if f.gate %} {{ f.gate }} {% endif %}</td>
+	<td>{% if f.check_in %} {{ f.check_in }} {% endif %}</td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+  <div data-role="footer" class="ui-bar" data-position="fixed">
+    <a href="#arrivals" data-role="button" data-inline="true">Show Arrivals</a>	
+    <a href="/" rel="external" data-role="button" data-inline="true">Select Airport</a>	
+  </div>
+</div>
+
+<div data-role="page" id="arrivals">
+  <div data-role="header">
+    <h1>{{ airport.name }} ({{ airport.code }})</h1>
+  </div>
+
+  <div data-role="content">
+    <h4>Arrivals:</h4>
+    <table>
+      <tr>
+	<th>Flight</th>
+	<th>Destination</th>
+	<th>Time</th>
+	<th>Belt</th>
+      </tr>
+      {% for f in arrivals %}
+      <tr>
+	<td>{{ f.flight_id }}</td> 
+	<td>{{ f.airport.name }}</td> 
+	<td>{{ f.get_local_schedule_time()|datetimeformat }}</td>
+	<td>{% if f.belt %} {{ f.belt }} {% endif %}</td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+  <div data-role="footer" class="ui-bar" data-position="fixed">
+    <a href="#departures" data-role="button" data-inline="true">Show Departures</a>	
+    <a href="/" rel="external" data-role="button" data-inline="true">Select Airport</a>	
+</div>
+{% endblock %}

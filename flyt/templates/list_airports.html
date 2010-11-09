@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div data-role="page" id="airports">
+  <div data-role="header">
+    <h1>Airports</h1>
+  </div>
+  <div data-role="content">
+    <ul data-role="listview" data-filter="true">
+      {% for airport in airports %}
+      <li>
+	<a href="airport/{{airport.code}}" rel="external">{{ airport.name }} ({{ airport.code }}) </a>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+{% endblock %}
