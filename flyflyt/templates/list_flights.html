@@ -1,4 +1,7 @@
 {% extends "base.html" %}
+{% block title %} 
+  Flight information: {{ airport.name }} ({{ airport.code }})
+{% endblock %}
 
 {% block content %}
 <div data-role="page" id="departures">
@@ -15,6 +18,7 @@
 	<th>Time</th>
 	<th>Gate</th>
 	<th>Desk</th>
+	<th>Info</th>
       </tr>
       {% for f in departures %}
       <tr>
@@ -23,6 +27,7 @@
 	<td>{{ f.get_local_schedule_time()|datetimeformat }}</td>
 	<td>{% if f.gate %} {{ f.gate }} {% endif %}</td>
 	<td>{% if f.check_in %} {{ f.check_in }} {% endif %}</td>
+	<td>{% if f.status %} {{ f.status[0].text }} {% endif %}</td>
       </tr>
       {% endfor %}
     </table>
@@ -47,9 +52,10 @@
     <table>
       <tr>
 	<th>Flight</th>
-	<th>Destination</th>
+	<th>Origin</th>
 	<th>Time</th>
 	<th>Belt</th>
+	<th>Info</th>
       </tr>
       {% for f in arrivals %}
       <tr>
@@ -57,6 +63,7 @@
 	<td>{{ f.airport.name }}</td> 
 	<td>{{ f.get_local_schedule_time()|datetimeformat }}</td>
 	<td>{% if f.belt %} {{ f.belt }} {% endif %}</td>
+	<td>{% if f.status %} {{ f.status[0].text }} {% endif %} </td>
       </tr>
       {% endfor %}
     </table>
