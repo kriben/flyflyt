@@ -1,6 +1,6 @@
 import logging
 from flyflyt import app
-from flask import render_template
+from flask import render_template, make_response
 from flightinfo.airport import AirPort
 from flightinfo.flightinformationservice import FlightInformationService
 from flightinfo.airportparser import AirPortParser
@@ -23,34 +23,22 @@ def datetimeformat(value, format='%H:%M'):
 
 app.jinja_env.filters['datetimeformat'] = datetimeformat
 
-@app.route('/')
-def list_airports():
-    airports_html = memcache.get("list_airports_html")
-    if airports_html is None:
-        airports_xml = memcache.get("airports_xml")
-        if airports_xml is None:
-            airports_xml = FlightInformationService.download_airport_xml()
-            memcache.set("airports_xml", airports_xml, 6000)
+def generate_airport_html():
+    airports_xml = memcache.get("airports_xml")
+    if airports_xml is None:
+        airports_xml = FlightInformationService.download_airport_xml()
+        memcache.set("airports_xml", airports_xml, 6000)
+        
+    airports = AirPortParser.parse_airports(airports_xml)
+    airport_factory = AirPortFactory(airports)
 
-        airports = AirPortParser.parse_airports(airports_xml)
-        airport_factory = AirPortFactory(airports)
-
-        airports = airport_factory.get_norwegian_airports()
-        airports_html = render_template('list_airports.html', airports=airports)
-        memcache.set("list_airports_html", airports_html, 6000)
-    else:
-        logging.info("Found airport list in memcache.")
+    airports = airport_factory.get_norwegian_airports()
+    airports_html = render_template('list_airports.html', airports=airports)
 
     return airports_html
 
-@app.route('/airport/<code>')
-def list_flights(code):
-    def is_departure(flight):
-        return flight.direction == Flight.Directions.DEPARTURE
 
-    def is_arrival(flight):
-        return flight.direction == Flight.Directions.ARRIVAL
-
+def generate_flight_html(code):
     airports_xml = memcache.get("airports_xml")
     if airports_xml is None:
         airports_xml = FlightInformationService.download_airport_xml()
@@ -88,6 +76,12 @@ def list_flights(code):
                                          status_factory)
 
 
+    def is_departure(flight):
+        return flight.direction == Flight.Directions.DEPARTURE
+
+    def is_arrival(flight):
+        return flight.direction == Flight.Directions.ARRIVAL
+
     departures = filter(is_departure, flights)
     arrivals = filter(is_arrival, flights)
 
@@ -95,4 +89,30 @@ def list_flights(code):
                            airport=airport,
                            departures=departures,
                            arrivals=arrivals)
+
+
+
+
+@app.route('/')
+def list_airports():
+    airports_html = memcache.get("list_airports_html")
+    if airports_html is None:
+        airports_html = generate_airport_html()
+        memcache.set("list_airports_html", airports_html, 6000)
+    else:
+        logging.info("Found airport list in memcache.")
+
+    return airports_html
+
+@app.route('/airport/<code>')
+def list_flights(code):
+    airport_html_id = "airport_html" + code
+    flight_html = memcache.get(airport_html_id)
+    if flight_html is None:
+        flight_html = generate_flight_html(code)
+        memcache.set(airport_html_id, flight_html, 60)
+    else:
+        logging.info("Found html for " + code + " in memcache.")
+        
+    return flight_html
 
