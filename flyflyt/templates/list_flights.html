@@ -4,6 +4,25 @@
 {% endblock %}
 
 {% block content %}
+
+<script>
+
+function lookup_location() {
+   navigator.geolocation.getCurrentPosition(show_map, show_map_error);
+};
+
+function show_map(loc) 
+{ 
+  window.location = "/closest?latitude=" + loc.coords.latitude + "&longitude=" + loc.coords.longitude;
+};
+
+function show_map_error() 
+{
+  alert("Unable to find you!");
+};
+
+</script>
+
 <div data-role="page" id="departures">
   <div data-role="header">
     <h1>{{ airport.name }} ({{ airport.code }})</h1>
@@ -42,6 +61,7 @@
   <div data-role="footer" class="ui-bar" data-position="fixed">
     <a href="#arrivals" data-role="button" data-inline="true">Show Arrivals</a>	
     <a href="/" rel="external" data-role="button" data-inline="true">Select Airport</a>	
+    <a href="#" onclick="lookup_location();" data-role="button" data-inline="true">Closest Airport</a>	
   </div>
 </div>
 

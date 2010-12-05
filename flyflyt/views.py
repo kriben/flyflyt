@@ -1,6 +1,6 @@
 import logging
 from flyflyt import app
-from flask import render_template
+from flask import render_template, redirect, url_for, request, abort
 from flightinfo.airport import AirPort
 from flightinfo.flightinformationservice import FlightInformationService
 from flightinfo.airportparser import AirPortParser
@@ -15,6 +15,7 @@ from flightinfo.flightparser import FlightParser
 from flightinfo.flightstatusparser import FlightStatusParser
 from flightinfo.flightstatusfactory import FlightStatusFactory
 from flightinfo.query import Query
+from flightinfo.position import Position
 from google.appengine.api import memcache
 
 
@@ -134,3 +135,21 @@ def list_flights(code):
         
     return flight_html
 
+@app.route('/closest')
+def find_closest_airport():
+    try:
+        latitude = float(request.args["latitude"])
+        longitude = float(request.args["longitude"])
+    except ValueError:
+        logging.error("Position is not float: [%s, %s]", 
+                      request.args["latitude"],
+                      request.args["longitude"])
+        abort(400)
+
+    factory = generate_airport_factory()
+    airport = factory.get_closest_norwegian_airport(Position(latitude, longitude))
+
+    logging.info("Airport %s found for location [%s, %s]", airport.code,
+                 latitude, longitude)
+    
+    return redirect(url_for('list_flights', code=airport.code))
