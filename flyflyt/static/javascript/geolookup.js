@@ -1,13 +1,15 @@
 function lookup_location() {
-   navigator.geolocation.getCurrentPosition(show_map, show_map_error, { enableHighAccuracy : true });
+  if (geo_position_js.init()) {
+    geo_position_js.getCurrentPosition(get_closest_airport, show_error, { enableHighAccuracy : true });
+  }
 };
 
-function show_map(loc) 
+function get_closest_airport(loc) 
 { 
   window.location = "/closest?latitude=" + loc.coords.latitude + "&longitude=" + loc.coords.longitude;
 };
 
-function show_map_error() 
+function show_error() 
 {
   alert("Unable to determine currect location.");
 };
