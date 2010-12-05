@@ -21,10 +21,9 @@
       </p>
       <div class="ui-li-aside">
 	<p>
-	  {% if f.status %} <strong>{{ f.status.text }}</strong> 
-	     {% if f.status.get_time() %}<strong>:</strong> {{f.status.get_local_time()|datetimeformat }}
-	     {% endif %}
-	     <br>
+	  {% if f.status %} <strong>{{ f.status.text }}</strong>{% if f.status.get_time() %}<strong>:</strong> {{f.status.get_local_time()|datetimeformat }}
+	    {% endif %}
+	    <br>
 	  {% endif %}
 	  {% if f.gate %} <strong>Gate:</strong> {{ f.gate }} <br>{% endif %}
 	  {% if f.check_in %} <strong>Check-in:</strong> {{ f.check_in }} <br>{% endif %}
@@ -64,8 +63,7 @@
       </p>
       <div class="ui-li-aside">
 	<p>
-	  {% if f.status %} <strong>{{ f.status.text }}</strong>
-	     {% if f.status.get_time() %}<strong>:</strong> {{ f.status.get_local_time()|datetimeformat }}
+	  {% if f.status %} <strong>{{ f.status.text }}</strong>{% if f.status.get_time() %}<strong>:</strong> {{ f.status.get_local_time()|datetimeformat }}
 	     {% endif %}
 	     <br>
 	  {% endif %}
