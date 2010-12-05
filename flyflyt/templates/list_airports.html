@@ -3,10 +3,10 @@
 {% block content %}
 
 <div data-role="page" id="airports">
-  <div data-role="header">
+  <div data-role="header" data-theme="b">
     <h1>Select Airport</h1>
   </div>
-  <div data-role="content">
+  <div data-role="content" data-theme="b">
     <ul data-role="listview" data-filter="true">
       {% for airport in airports %}
       <li>
@@ -16,7 +16,7 @@
     </ul>
   </div>
 
-  <div data-role="footer" class="ui-bar" data-position="fixed">
+  <div data-role="footer" class="ui-bar" data-position="fixed" data-theme="b">
     <a href="#" onclick="lookup_location();" data-role="button" data-inline="true">Closest Airport</a>	
   </div>
 </div>
