@@ -4,6 +4,9 @@ runtime: python
 api_version: 1
 
 handlers:
+- url: /static/javascript
+  static_dir: flyflyt/static/javascript
+
 - url: /.*
   script: main.py
 
