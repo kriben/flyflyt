@@ -8,7 +8,7 @@
 <script>
 
 function lookup_location() {
-   navigator.geolocation.getCurrentPosition(show_map, show_map_error);
+   navigator.geolocation.getCurrentPosition(show_map, show_map_error, { enableHighAccuracy : true });
 };
 
 function show_map(loc) 
@@ -18,7 +18,7 @@ function show_map(loc)
 
 function show_map_error() 
 {
-  alert("Unable to find you!");
+  alert("Unable to determine currect location.");
 };
 
 </script>
@@ -59,7 +59,7 @@ function show_map_error()
     {% endif %}
   </div>
   <div data-role="footer" class="ui-bar" data-position="fixed">
-    <a href="#arrivals" data-role="button" data-inline="true">Show Arrivals</a>	
+    <a href="#arrivals" data-role="button" data-inline="true">Arrivals</a>	
     <a href="/" rel="external" data-role="button" data-inline="true">Select Airport</a>	
     <a href="#" onclick="lookup_location();" data-role="button" data-inline="true">Closest Airport</a>	
   </div>
@@ -101,7 +101,8 @@ function show_map_error()
     {% endif %}
   </div>
   <div data-role="footer" class="ui-bar" data-position="fixed">
-    <a href="#departures" data-role="button" data-inline="true">Show Departures</a>	
+    <a href="#departures" data-role="button" data-inline="true">Departures</a>	
     <a href="/" rel="external" data-role="button" data-inline="true">Select Airport</a>	
+    <a href="#" onclick="lookup_location();" data-role="button" data-inline="true">Closest Airport</a>	
 </div>
 {% endblock %}
