@@ -1,4 +1,4 @@
 DEBUG=False
-SECRET_KEY='dev_key_h8hfne89vm'
+SECRET_KEY='dev_key_h8dflkxccds'
 CSRF_ENABLED=True
-CSRF_SESSION_LKEY='dev_key_h8asSNJ9s9=+'
+CSRF_SESSION_LKEY='dev_key_h8gfhSadf=f'
