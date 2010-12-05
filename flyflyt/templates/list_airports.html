@@ -4,7 +4,7 @@
 
 <div data-role="page" id="airports">
   <div data-role="header">
-    <h1>Airports</h1>
+    <h1>Select Airport</h1>
   </div>
   <div data-role="content">
     <ul data-role="listview" data-filter="true">
@@ -14,6 +14,10 @@
       </li>
       {% endfor %}
     </ul>
+  </div>
+
+  <div data-role="footer" class="ui-bar" data-position="fixed">
+    <a href="#" onclick="lookup_location();" data-role="button" data-inline="true">Closest Airport</a>	
   </div>
 </div>
 {% endblock %}
